@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_jcoinche-server" default="compile.module.jcoinche-server">
+  <dirname property="module.jcoinche-server.basedir" file="${ant.file.module_jcoinche-server}"/>
+  
+  <property name="module.jdk.home.jcoinche-server" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.jcoinche-server" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.jcoinche-server" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.jcoinche-server" value="-encoding UTF-8 -source 1.5 -target 1.5 ${compiler.args}"/>
+  
+  <property name="jcoinche-server.output.dir" value="${module.jcoinche-server.basedir}/target/classes"/>
+  <property name="jcoinche-server.testoutput.dir" value="${module.jcoinche-server.basedir}/target/test-classes"/>
+  
+  <path id="jcoinche-server.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="jcoinche-server.module.production.classpath">
+    <path refid="${module.jdk.classpath.jcoinche-server}"/>
+    <path refid="library.maven:_io.netty:netty-all:4.1.10.final.classpath"/>
+  </path>
+  
+  <path id="jcoinche-server.runtime.production.module.classpath">
+    <pathelement location="${jcoinche-server.output.dir}"/>
+    <path refid="library.maven:_io.netty:netty-all:4.1.10.final.classpath"/>
+  </path>
+  
+  <path id="jcoinche-server.module.classpath">
+    <path refid="${module.jdk.classpath.jcoinche-server}"/>
+    <pathelement location="${jcoinche-server.output.dir}"/>
+    <path refid="library.maven:_io.netty:netty-all:4.1.10.final.classpath"/>
+  </path>
+  
+  <path id="jcoinche-server.runtime.module.classpath">
+    <pathelement location="${jcoinche-server.testoutput.dir}"/>
+    <pathelement location="${jcoinche-server.output.dir}"/>
+    <path refid="library.maven:_io.netty:netty-all:4.1.10.final.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.jcoinche-server">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.jcoinche-server">
+    <patternset refid="excluded.from.module.jcoinche-server"/>
+  </patternset>
+  
+  <path id="jcoinche-server.module.sourcepath">
+    <dirset dir="${module.jcoinche-server.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="jcoinche-server.module.test.sourcepath">
+    <dirset dir="${module.jcoinche-server.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.jcoinche-server" depends="compile.module.jcoinche-server.production,compile.module.jcoinche-server.tests" description="Compile module jcoinche-server"/>
+  
+  <target name="compile.module.jcoinche-server.production" depends="register.custom.compilers" description="Compile module jcoinche-server; production classes">
+    <mkdir dir="${jcoinche-server.output.dir}"/>
+    <javac2 destdir="${jcoinche-server.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.jcoinche-server}/javac">
+      <compilerarg line="${compiler.args.jcoinche-server}"/>
+      <bootclasspath refid="jcoinche-server.module.bootclasspath"/>
+      <classpath refid="jcoinche-server.module.production.classpath"/>
+      <src refid="jcoinche-server.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.jcoinche-server"/>
+    </javac2>
+    
+    <copy todir="${jcoinche-server.output.dir}">
+      <fileset dir="${module.jcoinche-server.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.jcoinche-server.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.jcoinche-server.tests" depends="register.custom.compilers,compile.module.jcoinche-server.production" description="compile module jcoinche-server; test classes" unless="skip.tests">
+    <mkdir dir="${jcoinche-server.testoutput.dir}"/>
+    <javac2 destdir="${jcoinche-server.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.jcoinche-server}/javac">
+      <compilerarg line="${compiler.args.jcoinche-server}"/>
+      <bootclasspath refid="jcoinche-server.module.bootclasspath"/>
+      <classpath refid="jcoinche-server.module.classpath"/>
+      <src refid="jcoinche-server.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.jcoinche-server"/>
+    </javac2>
+    
+    <copy todir="${jcoinche-server.testoutput.dir}">
+      <fileset dir="${module.jcoinche-server.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.jcoinche-server" description="cleanup module">
+    <delete dir="${jcoinche-server.output.dir}"/>
+    <delete dir="${jcoinche-server.testoutput.dir}"/>
+  </target>
+</project>
