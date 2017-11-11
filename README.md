@@ -1,6 +1,6 @@
 ![logo](./img/logo.png)
 
-# L♣️E♦️A♠️T♥️
+# L♣️e♦️a♠️t♥️
 The But of Leat (portmanteau of the words « Lie » and «Cheat») game is to get rid as soon as possible of all the cards we have in hand.
 
 ## What does it use?
